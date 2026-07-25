@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="A web-based map editor for quick editing and saving of ROS and ROS2 SLAM maps and keep-out zones.">
-	<meta name="keywords" content="online, web, ros, ros2, SLAM, map,, editor, robotics, robots, responsive, pgm">
+	<meta name="description" data-i18n="pageDesc" content="一款基于浏览器的 ROS/ROS2 SLAM 地图与禁区在线编辑器，可快速编辑和保存。">
+	<meta name="keywords" content="online, web, ros, ros2, SLAM, map,, editor, robotics, robots, responsive, pgm, 在线, 地图编辑, 机器人, 中文">
 	<meta name="author" content="Dominick Lee">
-    <title>ROS SLAM Map Editor</title>
+    <title data-i18n="pageTitle">ROS SLAM 地图编辑器</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -50,84 +50,106 @@
         footer a:hover {
             color: white;
         }
+		/* 语言切换按钮 */
+		.lang-switch-btn {
+			cursor: pointer;
+			font-weight: bold;
+			font-size: 14px;
+			padding: 4px 12px;
+			border-radius: 4px;
+			border: 1px solid rgba(255,255,255,0.5);
+			background: rgba(255,255,255,0.15);
+			color: white;
+			transition: all 0.2s;
+			position: absolute;
+			top: 12px;
+			right: 16px;
+		}
+		.lang-switch-btn:hover {
+			background: rgba(255,255,255,0.3);
+			border-color: white;
+		}
+		.hero { position: relative; }
     </style>
 </head>
 <body>
 
     <!-- Hero Section -->
     <div class="hero">
-        <h1 class="display-4 font-weight-bold">ROS SLAM Map Editor</h1>
-        <p class="lead">A web-based map editor for quick editing of ROS and ROS2 SLAM maps</p>
-        <a href="editor.html" class="btn btn-custom mt-3"><i class="fas fa-edit"></i> Launch Editor</a>
+        <button class="lang-switch-btn" onclick="__i18n.toggleLang()" data-i18n-title="langLabel">EN</button>
+        <h1 class="display-4 font-weight-bold" data-i18n="heroTitle">ROS SLAM 地图编辑器</h1>
+        <p class="lead" data-i18n="heroSubtitle">一款基于浏览器的 ROS/ROS2 SLAM 地图在线编辑器</p>
+        <a href="editor.html" class="btn btn-custom mt-3"><i class="fas fa-edit"></i> <span data-i18n="launchEditor">启动编辑器</span></a>
         <div>
-            <img src="img/screenshot-main.png" alt="ROS SLAM Map Editor Screenshot">
+            <img src="img/screenshot-main.png" data-i18n-alt="screenshotAlt" alt="ROS SLAM 地图编辑器截图">
         </div>
     </div>
 
     <!-- Overview -->
     <div class="container mt-5">
-        <h2 class="mb-4 text-center">Overview</h2>
+        <h2 class="mb-4 text-center" data-i18n="overview">概述</h2>
         <p>
-            The ROS SLAM Map Editor is a hassle-free, open-source tool that allows engineers and researchers to refine their ROS/ROS2 SLAM maps directly in the browser — no external image editors required.
-            It’s designed for quick, precise adjustments to maps created by packages like 
-            <a href="https://github.com/SteveMacenski/slam_toolbox" target="_blank">slam_toolbox</a>.
+            <span data-i18n="overviewText1">ROS SLAM 地图编辑器是一款免费开源、即开即用的工具，让工程师和研究人员可以直接在浏览器中精细调整 ROS/ROS2 SLAM 地图——无需安装任何外部图像编辑软件。它专为快速精确地编辑由</span>
+            <a href="https://github.com/SteveMacenski/slam_toolbox" target="_blank">slam_toolbox</a><span data-i18n="overviewText2">等软件包生成的地图而设计。</span>
         </p>
-        <p>
-            Easily modify walls, obstacles, keep-out zones, and other environmental details for a more accurate representation of your environment.
+        <p data-i18n="overviewText3">
+            轻松修改墙壁、障碍物、禁区和其它环境细节，以获得更准确的环境表示。
         </p>
     </div>
 	
     <!-- Demo Video -->
     <div class="container mt-5">
-        <h2 class="mb-4 text-center">Demo Video</h2>
+        <h2 class="mb-4 text-center" data-i18n="demoVideo">演示视频</h2>
 		<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed//QZlPkAjfvck' frameborder='0' allowfullscreen></iframe></div>
     </div>
 
     <!-- Features -->
     <div class="container features mt-5">
-        <h2 class="mb-4 text-center">Features</h2>
+        <h2 class="mb-4 text-center" data-i18n="features">功能特性</h2>
         <div class="row">
             <div class="col-md-4 text-center mb-4">
                 <i class="fa fa-globe"></i>
-                <h5>Browser-based</h5>
-                <p class="lead">Works entirely in your browser. No installation required. Privacy-first design.</p>
+                <h5 data-i18n="feature1Title">纯浏览器运行</h5>
+                <p class="lead" data-i18n="feature1Desc">完全在浏览器中运行。无需安装。隐私优先设计。</p>
             </div>
             <div class="col-md-4 text-center mb-4">
                 <i class="fa fa-mouse-pointer"></i>
-                <h5>Intuitive Editing</h5>
-                <p class="lead">Paint, erase, measure, and draw with responsive tools for desktops and tablets.</p>
+                <h5 data-i18n="feature2Title">直观编辑</h5>
+                <p class="lead" data-i18n="feature2Desc">支持涂鸦、擦除、测量和绘制，适配桌面和平板的响应式工具。</p>
             </div>
             <div class="col-md-4 text-center mb-4">
                 <i class="fa fa-download"></i>
-                <h5>Easy Export</h5>
-                <p class="lead">Download updated PGM and YAML files instantly, with separate keep-out masks.</p>
+                <h5 data-i18n="feature3Title">轻松导出</h5>
+                <p class="lead" data-i18n="feature3Desc">即时下载更新后的 PGM 和 YAML 文件，支持独立的禁区遮罩导出。</p>
             </div>
         </div>
     </div>
 
     <!-- Usage -->
     <div class="container mt-5">
-        <h2 class="mb-4 text-center">Quick Start</h2>
+        <h2 class="mb-4 text-center" data-i18n="quickStart">快速上手</h2>
 		<hr />
         <ol>
-            <li>Drag & Drop your <code>map.yaml</code> and <code>map.pgm</code> into the editor.</li>
-            <li>Choose your edit mode: Wall, Erase, Keep-Out, Un-Scan, Line, Rectangle, or Measure.</li>
-            <li>Make your edits with zoom, pan, and brush size controls.</li>
-            <li>Download your updated map files when done.</li>
+            <li data-i18n="step1">将 <code>map.yaml</code> 和 <code>map.pgm</code> 拖放到编辑器中。</li>
+            <li data-i18n="step2">选择编辑模式：绘制墙壁、擦除、禁区、未扫描、直线、矩形 或 测量。</li>
+            <li data-i18n="step3">使用缩放、平移和笔刷大小控件进行编辑。</li>
+            <li data-i18n="step4">完成后下载更新后的地图文件。</li>
         </ol>
         <div class="text-center mt-5">
-            <a href="editor.html" class="btn btn-primary btn-lg"><i class="fas fa-play"></i> Try It Now</a>
-            <a href="https://github.com/GyroPalm/ROS-SLAM-Map-Editor" class="btn btn-secondary btn-lg"><i class="fab fa-github"></i> GitHub Repo</a>
+            <a href="editor.html" class="btn btn-primary btn-lg"><i class="fas fa-play"></i> <span data-i18n="tryItNow">立即体验</span></a>
+            <a href="https://github.com/GyroPalm/ROS-SLAM-Map-Editor" class="btn btn-secondary btn-lg"><i class="fab fa-github"></i> <span data-i18n="githubRepo">GitHub 仓库</span></a>
         </div>
     </div>
 
     <!-- Footer -->
     <footer>
-        <p>
-            Created by <a href="https://dominicklee.com" target="_blank">Dominick Lee</a> for <a href="https://vimpaact.gyropalm.com/" target="_blank">GyroPalm VIMPAACT</a> | &nbsp;&copy; 2025 by GyroPalm, LLC.
+        <p data-i18n="footerText">
+            由 Dominick Lee 为 GyroPalm VIMPAACT 创建 | &copy; 2025 by GyroPalm, LLC.
         </p>
     </footer>
 
+    <!-- i18n 翻译模块 -->
+    <script src="i18n.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

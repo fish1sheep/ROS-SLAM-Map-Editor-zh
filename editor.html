@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
-  <meta name="description" content="A web-based map editor for quick editing and saving of ROS and ROS2 SLAM maps and keep-out zones.">
+  <meta name="description" data-i18n="editorDesc" content="A web-based map editor for quick editing and saving of ROS and ROS2 SLAM maps and keep-out zones.">
   <meta name="keywords" content="online, web, ros, ros2, SLAM, map,, editor, robotics, robots, responsive, pgm">
   <meta name="author" content="Dominick Lee">
-  <title>Online ROS2 SLAM Map Editor</title>
+  <title data-i18n="editorTitle">在线 ROS2 SLAM 地图编辑器</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Bootstrap 4 + Font Awesome 4.7 -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -77,6 +77,23 @@
 	  user-select: none; /* Non-prefixed version, 
 							supported by all other modern browsers */
 	}
+	/* 语言切换按钮 */
+	.lang-switch-btn {
+	  cursor: pointer;
+	  font-weight: bold;
+	  font-size: 13px;
+	  padding: 2px 8px;
+	  border-radius: 4px;
+	  border: 1px solid #666;
+	  background: #2a2a2a;
+	  color: #ccc;
+	  transition: all 0.2s;
+	}
+	.lang-switch-btn:hover {
+	  background: #444;
+	  color: #fff;
+	  border-color: #17a2b8;
+	}
   </style>
 </head>
 <body>
@@ -85,52 +102,52 @@
     <div class="form-row align-items-center">
       <div class="col-auto pb-2">
         <input type="file" id="yamlInput" accept=".yaml,.yml" class="d-none">
-        <button class="btn btn-sm btn-outline-info" id="btnLoadYaml"><i class="fa fa-file-text-o"></i> Load YAML</button>
-        <span id="yamlName" class="small-note ml-2">No YAML</span>
+        <button class="btn btn-sm btn-outline-info" id="btnLoadYaml"><i class="fa fa-file-text-o"></i> <span data-i18n="loadYaml">加载 YAML</span></button>
+        <span id="yamlName" class="small-note ml-2">未加载 YAML</span>
       </div>
       <div class="col-auto pb-2">
         <input type="file" id="pgmInput" accept=".pgm" class="d-none">
-        <button class="btn btn-sm btn-outline-info" id="btnLoadPgm"><i class="fa fa-picture-o"></i> Load PGM</button>
-        <span id="pgmName" class="small-note ml-2">No PGM</span>
-		<span id="maskName" class="small-note ml-2">No Keepout</span>
+        <button class="btn btn-sm btn-outline-info" id="btnLoadPgm"><i class="fa fa-picture-o"></i> <span data-i18n="loadPgm">加载 PGM</span></button>
+        <span id="pgmName" class="small-note ml-2">未加载 PGM</span>
+		<span id="maskName" class="small-note ml-2">无禁区</span>
       </div>
 	  
       <!-- Zoom / Undo-Redo -->
       <div class="col-auto pb-2">
-        <div class="btn-group btn-group-sm" role="group" aria-label="Zoom">
-          <button class="btn btn-outline-light" id="zoomOut" title="Zoom Out (−)"><i class="fa fa-search-minus"></i></button>
-          <button class="btn btn-outline-light" id="zoomIn" title="Zoom In (+)"><i class="fa fa-search-plus"></i></button>
-          <button class="btn btn-outline-light" id="zoomReset" title="Reset Zoom"><i class="fa fa-compress"></i></button>
+        <div class="btn-group btn-group-sm" role="group" data-i18n-aria="zoomAria">
+          <button class="btn btn-outline-light" id="zoomOut" data-i18n-title="zoomOut"><i class="fa fa-search-minus"></i></button>
+          <button class="btn btn-outline-light" id="zoomIn" data-i18n-title="zoomIn"><i class="fa fa-search-plus"></i></button>
+          <button class="btn btn-outline-light" id="zoomReset" data-i18n-title="resetZoom"><i class="fa fa-compress"></i></button>
         </div>
         <div class="btn-group btn-group-sm ml-2" role="group">
-          <button class="btn btn-outline-warning" id="btnUndo" title="Undo (Ctrl+Z)"><i class="fa fa-undo"></i></button>
-          <button class="btn btn-outline-warning" id="btnRedo" title="Redo (Ctrl+Y / Shift+Z)"><i class="fa fa-repeat"></i></button>
+          <button class="btn btn-outline-warning" id="btnUndo" data-i18n-title="undo"><i class="fa fa-undo"></i></button>
+          <button class="btn btn-outline-warning" id="btnRedo" data-i18n-title="redo"><i class="fa fa-repeat"></i></button>
         </div>
       </div>
 
       <!-- Target (which layer / action) -->
       <div class="col-auto pb-2">
-        <div class="btn-group btn-group-sm" role="group" aria-label="Tools">
-          <button class="btn btn-outline-light tool-btn" data-tool="paint" title="Paint Walls (occupied)"><i class="fa fa-paint-brush"></i> Wall</button>
-          <button class="btn btn-outline-light tool-btn" data-tool="erase" title="Erase Map + Keepout"><i class="fa fa-eraser"></i> Erase</button>
-		  <button class="btn btn-outline-light tool-btn" data-tool="unscan" title="Mark as unknown (un-scanned)"><i class="fa fa-minus-square-o"></i> Un-Scan</button>
-          <button class="btn btn-outline-light tool-btn" data-tool="mask" title="Draw Keepout Mask"><i class="fa fa-ban"></i> Keep-Out</button>
+        <div class="btn-group btn-group-sm" role="group" data-i18n-aria="toolsAria">
+          <button class="btn btn-outline-light tool-btn" data-tool="paint" data-i18n-title="wallTitle"><i class="fa fa-paint-brush"></i> <span data-i18n="wall">墙壁</span></button>
+          <button class="btn btn-outline-light tool-btn" data-tool="erase" data-i18n-title="eraseTitle"><i class="fa fa-eraser"></i> <span data-i18n="erase">擦除</span></button>
+		  <button class="btn btn-outline-light tool-btn" data-tool="unscan" data-i18n-title="unscanTitle"><i class="fa fa-minus-square-o"></i> <span data-i18n="unscan">未扫描</span></button>
+          <button class="btn btn-outline-light tool-btn" data-tool="mask" data-i18n-title="keepoutTitle"><i class="fa fa-ban"></i> <span data-i18n="keepout">禁区</span></button>
         </div>
       </div>
 
       <!-- Shape Group -->
       <div class="col-auto pb-2">
-        <div class="btn-group btn-group-sm" role="group" aria-label="Shape">
-          <button class="btn btn-outline-light shape-btn" data-shape="freehand" title="Freehand"><i class="fa fa-pencil"></i></button>
-          <button class="btn btn-outline-light shape-btn" data-shape="line" title="Line"><i class="fa fa-minus"></i></button>
-          <button class="btn btn-outline-light shape-btn" data-shape="rect" title="Rectangle"><i class="fa fa-square-o"></i></button>
-		  <button class="btn btn-outline-light shape-btn" data-shape="measure" title="Measure Distance"><i class="fa fa-arrows-h"></i></button>
+        <div class="btn-group btn-group-sm" role="group" data-i18n-aria="shapeAria">
+          <button class="btn btn-outline-light shape-btn" data-shape="freehand" data-i18n-title="freehand"><i class="fa fa-pencil"></i></button>
+          <button class="btn btn-outline-light shape-btn" data-shape="line" data-i18n-title="line"><i class="fa fa-minus"></i></button>
+          <button class="btn btn-outline-light shape-btn" data-shape="rect" data-i18n-title="rect"><i class="fa fa-square-o"></i></button>
+		  <button class="btn btn-outline-light shape-btn" data-shape="measure" data-i18n-title="measure"><i class="fa fa-arrows-h"></i></button>
         </div>
       </div>
 
       <!-- Brush -->
       <div class="col-auto pb-2">
-        <label class="mb-0 mr-2"><i class="fa fa-dot-circle-o"></i> Brush</label>
+        <label class="mb-0 mr-2" data-i18n="brush"><i class="fa fa-dot-circle-o"></i> 笔刷</label>
         <input type="range" id="brushSize" min="1" max="60" value="8">
         <span id="brushLabel" class="small-note">8 px</span>
       </div>
@@ -139,30 +156,35 @@
       <div class="col-auto pb-2">
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" id="showMask" checked>
-          <label class="form-check-label" for="showMask">Show Mask</label>
+          <label class="form-check-label" for="showMask" data-i18n="showMask">显示遮罩</label>
         </div>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" id="invertDisplay">
-          <label class="form-check-label" for="invertDisplay">Invert</label>
+          <label class="form-check-label" for="invertDisplay" data-i18n="invert">反色</label>
         </div>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" id="autoLevels" checked>
-          <label class="form-check-label" for="autoLevels">Auto-levels</label>
+          <label class="form-check-label" for="autoLevels" data-i18n="autoLevels">自动色阶</label>
         </div>
 		<div class="form-check form-check-inline">
 		  <input class="form-check-input" type="checkbox" id="filledRect">
-		  <label class="form-check-label" for="filledRect">Filled</label>
+		  <label class="form-check-label" for="filledRect" data-i18n="filled">填充</label>
 		</div>
       </div>
 
 	  <!-- Download Files -->
       <div class="col-auto pb-2">
-        <button class="btn btn-sm btn-success" id="btnDownloadMap"><i class="fa fa-download"></i> Download Map</button>
-        <button class="btn btn-sm btn-warning" id="btnDownloadMask"><i class="fa fa-download"></i> Download Keepout Mask</button>
+        <button class="btn btn-sm btn-success" id="btnDownloadMap"><i class="fa fa-download"></i> <span data-i18n="downloadMap">下载地图</span></button>
+        <button class="btn btn-sm btn-warning" id="btnDownloadMask"><i class="fa fa-download"></i> <span data-i18n="downloadMask">下载禁区遮罩</span></button>
       </div>
 
-      <div class="col small-note ml-auto text-right pb-2">
-        Tip: Choose a target (Paint/Erase/Keep-Out), then a shape (Freehand/Line/Rect). Spacebar+Drag to pan. Shift+Scroll to zoom.
+      <div class="col small-note ml-auto text-right pb-2" data-i18n="tipText">
+        提示：选择目标（墙壁/擦除/禁区），然后选择形状（自由/直线/矩形）。空格键+拖拽=平移。Shift+滚轮=缩放。
+      </div>
+
+      <!-- 语言切换 -->
+      <div class="col-auto pb-2 ml-2">
+        <button class="lang-switch-btn" onclick="__i18n.toggleLang()" data-i18n-title="langLabel">EN</button>
       </div>
     </div>
   </div>
@@ -172,33 +194,33 @@
   <div class="row">
     <div class="col-lg-3 mb-3">
       <div id="drop" class="dropzone noselect">
-        <div><strong>Drag & drop</strong> your <code>.yaml</code> and <code>.pgm</code> here</div>
-        <div class="small-note">…or use the buttons above</div>
+        <div data-i18n="dropText"><strong>拖放</strong>你的 <code>.yaml</code> 和 <code>.pgm</code> 文件到此处</div>
+        <div class="small-note" data-i18n="dropHint">…或使用上方按钮加载</div>
       </div>
       <div class="spacer"></div>
       <div class="card bg-dark">
         <div class="card-body p-2">
-          <div class="small-note">YAML preview</div>
+          <div class="small-note" data-i18n="yamlPreview">YAML 预览</div>
           <pre id="yamlPreview" class="mb-0" style="max-height:240px; overflow:auto;"></pre>
         </div>
       </div>
       <div class="spacer"></div>
       <div class="card bg-dark">
         <div class="card-body p-2">
-          <div class="small-note">Debug</div>
+          <div class="small-note" data-i18n="debug">调试信息</div>
           <div class="small-note" id="dbgInfo">—</div>
         </div>
       </div>
       <div class="spacer"></div>
       <div class="card bg-dark">
         <div class="card-body p-2 noselect">
-          <div class="small-note mb-2"><strong>Legend</strong></div>
-          <div class="small-note"><i class="fa fa-paint-brush"></i> Wall: Sets map pixels to <code>0</code> (occupied/black)</div>
-          <div class="small-note"><i class="fa fa-eraser"></i> Erase: map→<code>maxval</code> (free), mask→<code>255</code> (no-keepout)</div>
-		  <div class="small-note"><i class="fa fa-minus-square-o"></i> &nbsp;Un-Scan: Sets map pixels to light gray (unknown)</div>
-          <div class="small-note"><i class="fa fa-ban"></i> &nbsp;Keep-Out: Draws black on mask (keepout)</div>
+          <div class="small-note mb-2"><strong data-i18n="legend">图例</strong></div>
+          <div class="small-note"><i class="fa fa-paint-brush"></i> <span data-i18n="legendWall">墙壁：将地图像素设为 <code>0</code>（障碍物/黑色）</span></div>
+          <div class="small-note"><i class="fa fa-eraser"></i> <span data-i18n="legendErase">擦除：地图→<code>maxval</code>（空闲），遮罩→<code>255</code>（无禁区）</span></div>
+		  <div class="small-note"><i class="fa fa-minus-square-o"></i> &nbsp;<span data-i18n="legendUnscan">未扫描：将地图像素设为浅灰色（未知区域）</span></div>
+          <div class="small-note"><i class="fa fa-ban"></i> &nbsp;<span data-i18n="legendKeepout">禁区：在遮罩上绘制黑色（禁止进入）</span></div>
 		  <div class="spacer"></div>
-		  <div class="small-note mt-3"><i>Powered by GyroPalm VIMPAACT</i></div>
+		  <div class="small-note mt-3"><i data-i18n="poweredBy">由 GyroPalm VIMPAACT 提供支持</i></div>
         </div>
       </div>
     </div>
@@ -206,7 +228,7 @@
     <div class="col-lg-9">
       <div id="viewport">
         <div id="canvasWrap">
-          <div class="overlay-label">Map</div>
+          <div class="overlay-label" data-i18n="overlayMap">地图</div>
           <canvas id="mapCanvas"></canvas>
           <canvas id="maskCanvas"></canvas>
           <canvas id="previewCanvas"></canvas>
@@ -217,6 +239,8 @@
   </div>
 </div>
 
+<!-- i18n 翻译模块 -->
+<script src="i18n.js"></script>
 <!-- jQuery + Bootstrap 4 + js-yaml -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
@@ -224,6 +248,8 @@
 
 <script>
 (function(){
+  var _ = __i18n.t;  // 翻译函数简写
+
   // ===== State =====
   let yamlObj = null, yamlText = '', yamlName = 'map.yaml';
   let pgm = null, pgmName = 'map.pgm';
@@ -236,7 +262,7 @@
   let brush = 8;
   let zoom = 1, ZMIN=0.25, ZMAX=8, ZSTEP=1.25;
   
-  let maskName = 'No Keepout';      // track which mask file is loaded
+  let maskName = null;      // null = 未加载禁区文件，否则为文件名
   
   // filename helpers
   const isYaml = name => /\.ya?ml$/i.test(name);
@@ -295,9 +321,13 @@
 
   $('#brushSize').on('input change', function(){
     brush = parseInt(this.value,10);
-    $('#brushLabel').text(brush + ' px');
+    updateBrushLabel();
     updateBrushCursorSize();
   });
+
+  function updateBrushLabel(){
+    $('#brushLabel').text(_('brushPx', {size: brush}));
+  }
 
   $('#showMask').on('change', function(){
     maskCanvas.style.display = this.checked ? 'block' : 'none';
@@ -335,6 +365,29 @@
   window.addEventListener('keyup', (e)=>{
     if(e.code === 'Space'){ isSpace = false; viewport.classList.remove('panning'); viewport.classList.remove('dragging'); }
   });
+
+  // 监听语言切换事件，更新动态文本
+  document.addEventListener('langchange', function(){
+    updateBrushLabel();
+    updateStatusLabels();
+    updateDebug();
+    // 更新画布上的测量标签（如果有的话需要重新测量）
+  });
+
+  function updateStatusLabels(){
+    // 更新 YAML / PGM / Mask 状态标签（由 JS 管理，不用 data-i18n 避免切换闪烁）
+    if (yamlObj) {
+      $yamlName.text(yamlName);
+    } else {
+      $yamlName.text(_('noYaml'));
+    }
+    if (pgm) {
+      $pgmName.text(pgmName);
+    } else {
+      $pgmName.text(_('noPgm'));
+    }
+    $('#maskName').text(maskName || _('noKeepout'));
+  }
 
   // Resize viewport height precisely relative to toolbar
   function sizeViewport(){
@@ -485,7 +538,7 @@
       beginStroke();
       paintAt(cx, cy);
     } else if(shape === 'line' || shape === 'rect' || shape === 'measure'){
-		// line / rect / measure: start preview
+			// line / rect / measure: start preview
       previewing = true;
       sx = cx; sy = cy;
       clearPreview();
@@ -500,14 +553,14 @@
       finishStroke();
     } else if(previewing){
       previewing = false;
-	  // commit line/rect
+		  // commit line/rect
       const rect = mapCanvas.getBoundingClientRect();
       let ex, ey;
       if(e && typeof e.clientX === 'number'){
         ex = e.clientX - rect.left; ey = e.clientY - rect.top;
       } else { 
-		// if touchend or mouseup without coordinates, keep last previewed pos
-		ex = lastPreviewX ?? sx; ey = lastPreviewY ?? sy;
+			// if touchend or mouseup without coordinates, keep last previewed pos
+			ex = lastPreviewX ?? sx; ey = lastPreviewY ?? sy;
       }
       if(shape === 'measure'){
         // keep the preview on screen until next action (comment out next line to persist it)
@@ -776,7 +829,7 @@
       const res = (yamlObj && typeof yamlObj.resolution === 'number') ? yamlObj.resolution : 0.05; // meters/pixel
       const meters = pixDist * res;
       const feet = meters * 3.28084;
-      const txt = `${meters.toFixed(3)} m  (${feet.toFixed(2)} ft)`;
+      const txt = _('measurement', {meters: meters.toFixed(3), feet: feet.toFixed(2)});
       drawLabel(prevCtx, cx2, cy2, txt);
     }
   
@@ -806,10 +859,10 @@
               // load mask image from batch
               readBinary(byName.get(baseName)).then(buf=>{
                 loadKeepoutPGM(baseName, new Uint8Array(buf));
-              }).catch(err=> alert('Keepout image load error: ' + err.message));
+              }).catch(err=> alert(_('keepoutLoadError', {msg: err.message})));
             }else{
               // If baseName missing from the drop, just note it—user can drop it later
-              console.warn('Drop the keepout image "'+ baseName +'" to view the mask.');
+              console.warn(_('dropKeepoutHint', {name: baseName}));
             }
             // Show YAML in preview if you want:
             // (Optional) $('#yamlPreview').text(txt);
@@ -823,7 +876,7 @@
 			updateDebug();
           }
         }catch(e){
-          alert('YAML parse error in ' + file.name + ': ' + e.message);
+          alert(_('yamlParseError', {file: file.name, msg: e.message}));
         }
       });
     });
@@ -837,7 +890,7 @@
         }else{
           loadBasePGM(file.name, u8);
         }
-      }).catch(err=> alert('PGM parse error in ' + file.name + ': ' + err.message));
+      }).catch(err=> alert(_('pgmParseError', {file: file.name, msg: err.message})));
     });
   }
   function readText(file){
@@ -868,13 +921,13 @@
       if(!mask || (mask.length !== pgm.width*pgm.height)){
         mask = new Uint8ClampedArray(pgm.width*pgm.height);
         mask.fill(255); // no keepout by default
-        maskName = 'No Keepout';
-        $('#maskName').text(maskName);
+        maskName = null;
+        $('#maskName').text(_('noKeepout'));
       }
   
       setupCanvasFromPGM();  // this already redraws and updates dbg
     }catch(e){
-      alert('Base PGM load error: ' + e.message);
+      alert(_('basePgmLoadError', {msg: e.message}));
     }
   }
   
@@ -884,7 +937,7 @@
   
       // If we already have a base map, ensure sizes match
       if(pgm && (kpgm.width !== pgm.width || kpgm.height !== pgm.height)){
-        alert(`Keepout mask size ${kpgm.width}x${kpgm.height} does not match base map ${pgm.width}x${pgm.height}. Skipping.`);
+        alert(_('keepoutSizeMismatch', {kw: kpgm.width, kh: kpgm.height, pw: pgm.width, ph: pgm.height}));
         return;
       }
   
@@ -919,7 +972,7 @@
       // Debug line update
       updateDebug(); 
     }catch(e){
-      alert('Keepout PGM load error: ' + e.message);
+      alert(_('keepoutPgmLoadError', {msg: e.message}));
     }
   }
 
@@ -933,14 +986,13 @@
   
   function updateDebug(){
     if(!pgm){
-      $('#dbgInfo').text('—');
+      $('#dbgInfo').text('\u2014');
       return;
     }
-    const keep = (typeof maskName === 'string' && maskName) ? maskName : 'No Keepout';
-    const neg = (yamlObj && yamlObj.negate != null) ? yamlObj.negate : '(n/a)';
+    const keep = maskName || _('noKeepoutStatus');
+    const neg = (yamlObj && yamlObj.negate != null) ? yamlObj.negate : _('na');
     $('#dbgInfo').text(
-      `PGM: ${pgm.width}×${pgm.height}, maxval=${pgm.maxval}, magic=${pgm.magic}; ` +
-      `YAML negate=${neg}; Keepout: ${keep}`
+      _('debugInfo', {w: pgm.width, h: pgm.height, maxval: pgm.maxval, magic: pgm.magic, neg: neg, keep: keep})
     );
   }
 
@@ -998,7 +1050,7 @@
   function parsePGM(uint8){
     const textHead = new TextDecoder().decode(uint8.slice(0, 1024));
     const magic = textHead.slice(0,2);
-    if(magic !== 'P5' && magic !== 'P2') throw new Error('Unsupported PGM magic');
+    if(magic !== 'P5' && magic !== 'P2') throw new Error(_('unsupportedPgmMagic'));
 
     function* tokens(bytes){
       let s = '';
@@ -1006,15 +1058,15 @@
         const c = String.fromCharCode(bytes[i]);
         if(c==='#'){ while(i<bytes.length && String.fromCharCode(bytes[i])!=='\n') i++; continue; }
         if(/\s/.test(c)){ if(s.length){ yield s; s=''; } } else s+=c;
-        if(s.length>256) throw new Error('Header token too long');
+        if(s.length>256) throw new Error(_('headerTokenTooLong'));
       } if(s.length) yield s;
     }
     const it = tokens(uint8);
-    const mg = it.next().value; if(mg !== magic) throw new Error('Malformed header');
+    const mg = it.next().value; if(mg !== magic) throw new Error(_('malformedHeader'));
     const w = parseInt(it.next().value,10);
     const h = parseInt(it.next().value,10);
     const maxv = parseInt(it.next().value,10);
-    if(!(w>0 && h>0 && maxv>0)) throw new Error('Invalid pgm dims/maxval');
+    if(!(w>0 && h>0 && maxv>0)) throw new Error(_('invalidPgmDims'));
 
     if(magic === 'P2'){
       const restTxt = new TextDecoder().decode(uint8);
@@ -1022,7 +1074,7 @@
       const headerMatch = restTxt.match(headerRe);
       const start = headerMatch ? headerMatch[0].length : 0;
       const nums = restTxt.slice(start).match(/\d+/g) || [];
-      if(nums.length < w*h) throw new Error('P2 data too short');
+      if(nums.length < w*h) throw new Error(_('p2DataTooShort'));
       const pixels = new Uint16Array(w*h);
       for(let i=0;i<w*h;i++) pixels[i] = Math.min(maxv, parseInt(nums[i],10));
       return {magic, width:w, height:h, maxval:maxv, pixels};
@@ -1042,7 +1094,7 @@
       const pixels = (maxv>255) ? new Uint16Array(w*h) : new Uint8Array(w*h);
       const bytesPer = (maxv>255)?2:1;
       const needed = w*h*bytesPer;
-      if(dataStart + needed > uint8.length) throw new Error('P5 data too short');
+      if(dataStart + needed > uint8.length) throw new Error(_('p5DataTooShort'));
       if(bytesPer===1){ pixels.set(uint8.slice(dataStart, dataStart+needed)); }
       else{
         let p=0; for(let k=0;k<needed;k+=2){ pixels[p++] = (uint8[dataStart+k]<<8) | uint8[dataStart+k+1]; }
@@ -1089,7 +1141,7 @@
   }
 
   $('#btnDownloadMap').on('click', ()=>{
-    if(!pgm || !yamlObj){ alert('Load YAML and PGM first.'); return; }
+    if(!pgm || !yamlObj){ alert(_('loadYamlPgmFirst')); return; }
     const pgmBytes = encodePGM(pgm);
     const outPgm = pgmName.replace(/\.pgm$/i,'_edited.pgm');
     const outYaml = (yamlName||'map.yaml').replace(/\.ya?ml$/i,'_edited.yaml');
@@ -1098,7 +1150,7 @@
   });
 
   $('#btnDownloadMask').on('click', ()=>{
-    if(!pgm || !yamlObj || !mask){ alert('Load YAML and PGM first.'); return; }
+    if(!pgm || !yamlObj || !mask){ alert(_('loadYamlPgmFirst')); return; }
     const m = { magic:'P5', width: pgm.width, height: pgm.height, maxval: 255, pixels: mask };
     const maskBytes = encodePGM(m);
     const base = (pgmName||'map.pgm').replace(/\.pgm$/i,'');
@@ -1108,6 +1160,10 @@
     dlBytes(maskBytes, outMaskPgm, 'image/x-portable-graymap');
     dlText(jsyaml.dump(y), outMaskYaml, 'text/yaml');
   });
+
+  // 初始化笔刷标签和状态标签
+  updateBrushLabel();
+  updateStatusLabels();
 
 })();
 </script>
