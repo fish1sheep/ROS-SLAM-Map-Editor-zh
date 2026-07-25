@@ -259,8 +259,7 @@
     // 触发自定义事件，让内联脚本也能响应
     if (typeof document !== 'undefined') {
       document.documentElement.lang = (lang === 'zh') ? 'zh-CN' : 'en';
-      var evt = document.createEvent('Event');
-      evt.initEvent('langchange', true, false);
+	      var evt = new CustomEvent('langchange', { bubbles: true, cancelable: false });
       document.dispatchEvent(evt);
     }
   }

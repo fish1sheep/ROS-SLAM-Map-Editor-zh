@@ -70,13 +70,15 @@
 			border-color: white;
 		}
 		.hero { position: relative; }
+		.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; }
+		.embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
 
     <!-- Hero Section -->
     <div class="hero">
-        <button class="lang-switch-btn" onclick="__i18n.toggleLang()" data-i18n-title="langLabel">EN</button>
+        <button type="button" class="lang-switch-btn" onclick="__i18n.toggleLang()" data-i18n-title="langLabel">EN</button>
         <h1 class="display-4 font-weight-bold" data-i18n="heroTitle">ROS SLAM 地图编辑器</h1>
         <p class="lead" data-i18n="heroSubtitle">一款基于浏览器的 ROS/ROS2 SLAM 地图在线编辑器</p>
         <a href="editor.html" class="btn btn-custom mt-3"><i class="fas fa-edit"></i> <span data-i18n="launchEditor">启动编辑器</span></a>
@@ -90,7 +92,7 @@
         <h2 class="mb-4 text-center" data-i18n="overview">概述</h2>
         <p>
             <span data-i18n="overviewText1">ROS SLAM 地图编辑器是一款免费开源、即开即用的工具，让工程师和研究人员可以直接在浏览器中精细调整 ROS/ROS2 SLAM 地图——无需安装任何外部图像编辑软件。它专为快速精确地编辑由</span>
-            <a href="https://github.com/SteveMacenski/slam_toolbox" target="_blank">slam_toolbox</a><span data-i18n="overviewText2">等软件包生成的地图而设计。</span>
+            <a href="https://github.com/SteveMacenski/slam_toolbox" target="_blank" rel="noopener noreferrer">slam_toolbox</a><span data-i18n="overviewText2">等软件包生成的地图而设计。</span>
         </p>
         <p data-i18n="overviewText3">
             轻松修改墙壁、障碍物、禁区和其它环境细节，以获得更准确的环境表示。
@@ -100,7 +102,7 @@
     <!-- Demo Video -->
     <div class="container mt-5">
         <h2 class="mb-4 text-center" data-i18n="demoVideo">演示视频</h2>
-		<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed//QZlPkAjfvck' frameborder='0' allowfullscreen></iframe></div>
+		<div class='embed-container'><iframe src='https://www.youtube.com/embed/QZlPkAjfvck' allowfullscreen></iframe></div>
     </div>
 
     <!-- Features -->
@@ -109,17 +111,17 @@
         <div class="row">
             <div class="col-md-4 text-center mb-4">
                 <i class="fa fa-globe"></i>
-                <h5 data-i18n="feature1Title">纯浏览器运行</h5>
+                <h3 data-i18n="feature1Title">纯浏览器运行</h3>
                 <p class="lead" data-i18n="feature1Desc">完全在浏览器中运行。无需安装。隐私优先设计。</p>
             </div>
             <div class="col-md-4 text-center mb-4">
                 <i class="fa fa-mouse-pointer"></i>
-                <h5 data-i18n="feature2Title">直观编辑</h5>
+                <h3 data-i18n="feature2Title">直观编辑</h3>
                 <p class="lead" data-i18n="feature2Desc">支持涂鸦、擦除、测量和绘制，适配桌面和平板的响应式工具。</p>
             </div>
             <div class="col-md-4 text-center mb-4">
                 <i class="fa fa-download"></i>
-                <h5 data-i18n="feature3Title">轻松导出</h5>
+                <h3 data-i18n="feature3Title">轻松导出</h3>
                 <p class="lead" data-i18n="feature3Desc">即时下载更新后的 PGM 和 YAML 文件，支持独立的禁区遮罩导出。</p>
             </div>
         </div>

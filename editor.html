@@ -37,22 +37,22 @@
     #canvasWrap{ position:relative; display:inline-block; }
 
     /* Base map canvas gets the checkerboard */
-    #mapCanvas{
-      image-rendering: pixelated; image-rendering: crisp-edges;
-      border:1px solid #444;
-      background: conic-gradient(#222 0 25%, #111 0 50%, #222 0 75%, #111 0 100%) 0 0/16px 16px;
-    }
+	    #mapCanvas{
+	      image-rendering: -moz-crisp-edges; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; image-rendering: pixelated;
+	      border:1px solid #444;
+	      background: conic-gradient(#222 0 25%, #111 0 50%, #222 0 75%, #111 0 100%) 0 0/16px 16px;
+	    }
     /* Mask overlay is transparent except where painted */
-    #maskCanvas{
-      image-rendering: pixelated; image-rendering: crisp-edges;
+	    #maskCanvas{
+	      image-rendering: -moz-crisp-edges; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; image-rendering: pixelated;
       border:1px solid #444;
       background: transparent !important;
       position:absolute; left:0; top:0; z-index:2;
       pointer-events: none;
     }
     /* Preview overlay for line/rect ghosting */
-    #previewCanvas{
-      image-rendering: pixelated; image-rendering: crisp-edges;
+	    #previewCanvas{
+	      image-rendering: -moz-crisp-edges; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; image-rendering: pixelated;
       position:absolute; left:0; top:0; z-index:3;
       pointer-events: none;
       background: transparent !important;
@@ -102,12 +102,12 @@
     <div class="form-row align-items-center">
       <div class="col-auto pb-2">
         <input type="file" id="yamlInput" accept=".yaml,.yml" class="d-none">
-        <button class="btn btn-sm btn-outline-info" id="btnLoadYaml"><i class="fa fa-file-text-o"></i> <span data-i18n="loadYaml">加载 YAML</span></button>
+	        <button type="button" class="btn btn-sm btn-outline-info" id="btnLoadYaml"><i class="fa fa-file-text-o"></i> <span data-i18n="loadYaml">加载 YAML</span></button>
         <span id="yamlName" class="small-note ml-2">未加载 YAML</span>
       </div>
       <div class="col-auto pb-2">
         <input type="file" id="pgmInput" accept=".pgm" class="d-none">
-        <button class="btn btn-sm btn-outline-info" id="btnLoadPgm"><i class="fa fa-picture-o"></i> <span data-i18n="loadPgm">加载 PGM</span></button>
+	        <button type="button" class="btn btn-sm btn-outline-info" id="btnLoadPgm"><i class="fa fa-picture-o"></i> <span data-i18n="loadPgm">加载 PGM</span></button>
         <span id="pgmName" class="small-note ml-2">未加载 PGM</span>
 		<span id="maskName" class="small-note ml-2">无禁区</span>
       </div>
@@ -115,39 +115,39 @@
       <!-- Zoom / Undo-Redo -->
       <div class="col-auto pb-2">
         <div class="btn-group btn-group-sm" role="group" data-i18n-aria="zoomAria">
-          <button class="btn btn-outline-light" id="zoomOut" data-i18n-title="zoomOut"><i class="fa fa-search-minus"></i></button>
-          <button class="btn btn-outline-light" id="zoomIn" data-i18n-title="zoomIn"><i class="fa fa-search-plus"></i></button>
-          <button class="btn btn-outline-light" id="zoomReset" data-i18n-title="resetZoom"><i class="fa fa-compress"></i></button>
+	          <button type="button" class="btn btn-outline-light" id="zoomOut" data-i18n-title="zoomOut"><i class="fa fa-search-minus"></i></button>
+	          <button type="button" class="btn btn-outline-light" id="zoomIn" data-i18n-title="zoomIn"><i class="fa fa-search-plus"></i></button>
+	          <button type="button" class="btn btn-outline-light" id="zoomReset" data-i18n-title="resetZoom"><i class="fa fa-compress"></i></button>
         </div>
         <div class="btn-group btn-group-sm ml-2" role="group">
-          <button class="btn btn-outline-warning" id="btnUndo" data-i18n-title="undo"><i class="fa fa-undo"></i></button>
-          <button class="btn btn-outline-warning" id="btnRedo" data-i18n-title="redo"><i class="fa fa-repeat"></i></button>
+	          <button type="button" class="btn btn-outline-warning" id="btnUndo" data-i18n-title="undo"><i class="fa fa-undo"></i></button>
+	          <button type="button" class="btn btn-outline-warning" id="btnRedo" data-i18n-title="redo"><i class="fa fa-repeat"></i></button>
         </div>
       </div>
 
       <!-- Target (which layer / action) -->
       <div class="col-auto pb-2">
         <div class="btn-group btn-group-sm" role="group" data-i18n-aria="toolsAria">
-          <button class="btn btn-outline-light tool-btn" data-tool="paint" data-i18n-title="wallTitle"><i class="fa fa-paint-brush"></i> <span data-i18n="wall">墙壁</span></button>
-          <button class="btn btn-outline-light tool-btn" data-tool="erase" data-i18n-title="eraseTitle"><i class="fa fa-eraser"></i> <span data-i18n="erase">擦除</span></button>
-		  <button class="btn btn-outline-light tool-btn" data-tool="unscan" data-i18n-title="unscanTitle"><i class="fa fa-minus-square-o"></i> <span data-i18n="unscan">未扫描</span></button>
-          <button class="btn btn-outline-light tool-btn" data-tool="mask" data-i18n-title="keepoutTitle"><i class="fa fa-ban"></i> <span data-i18n="keepout">禁区</span></button>
+	          <button type="button" class="btn btn-outline-light tool-btn" data-tool="paint" data-i18n-title="wallTitle"><i class="fa fa-paint-brush"></i> <span data-i18n="wall">墙壁</span></button>
+	          <button type="button" class="btn btn-outline-light tool-btn" data-tool="erase" data-i18n-title="eraseTitle"><i class="fa fa-eraser"></i> <span data-i18n="erase">擦除</span></button>
+			  <button type="button" class="btn btn-outline-light tool-btn" data-tool="unscan" data-i18n-title="unscanTitle"><i class="fa fa-minus-square-o"></i> <span data-i18n="unscan">未扫描</span></button>
+	          <button type="button" class="btn btn-outline-light tool-btn" data-tool="mask" data-i18n-title="keepoutTitle"><i class="fa fa-ban"></i> <span data-i18n="keepout">禁区</span></button>
         </div>
       </div>
 
       <!-- Shape Group -->
       <div class="col-auto pb-2">
         <div class="btn-group btn-group-sm" role="group" data-i18n-aria="shapeAria">
-          <button class="btn btn-outline-light shape-btn" data-shape="freehand" data-i18n-title="freehand"><i class="fa fa-pencil"></i></button>
-          <button class="btn btn-outline-light shape-btn" data-shape="line" data-i18n-title="line"><i class="fa fa-minus"></i></button>
-          <button class="btn btn-outline-light shape-btn" data-shape="rect" data-i18n-title="rect"><i class="fa fa-square-o"></i></button>
-		  <button class="btn btn-outline-light shape-btn" data-shape="measure" data-i18n-title="measure"><i class="fa fa-arrows-h"></i></button>
+	          <button type="button" class="btn btn-outline-light shape-btn" data-shape="freehand" data-i18n-title="freehand"><i class="fa fa-pencil"></i></button>
+	          <button type="button" class="btn btn-outline-light shape-btn" data-shape="line" data-i18n-title="line"><i class="fa fa-minus"></i></button>
+	          <button type="button" class="btn btn-outline-light shape-btn" data-shape="rect" data-i18n-title="rect"><i class="fa fa-square-o"></i></button>
+			  <button type="button" class="btn btn-outline-light shape-btn" data-shape="measure" data-i18n-title="measure"><i class="fa fa-arrows-h"></i></button>
         </div>
       </div>
 
       <!-- Brush -->
       <div class="col-auto pb-2">
-        <label class="mb-0 mr-2" data-i18n="brush"><i class="fa fa-dot-circle-o"></i> 笔刷</label>
+	        <label class="mb-0 mr-2" for="brushSize" data-i18n="brush"><i class="fa fa-dot-circle-o"></i> 笔刷</label>
         <input type="range" id="brushSize" min="1" max="60" value="8">
         <span id="brushLabel" class="small-note">8 px</span>
       </div>
@@ -174,8 +174,8 @@
 
 	  <!-- Download Files -->
       <div class="col-auto pb-2">
-        <button class="btn btn-sm btn-success" id="btnDownloadMap"><i class="fa fa-download"></i> <span data-i18n="downloadMap">下载地图</span></button>
-        <button class="btn btn-sm btn-warning" id="btnDownloadMask"><i class="fa fa-download"></i> <span data-i18n="downloadMask">下载禁区遮罩</span></button>
+	        <button type="button" class="btn btn-sm btn-success" id="btnDownloadMap"><i class="fa fa-download"></i> <span data-i18n="downloadMap">下载地图</span></button>
+	        <button type="button" class="btn btn-sm btn-warning" id="btnDownloadMask"><i class="fa fa-download"></i> <span data-i18n="downloadMask">下载禁区遮罩</span></button>
       </div>
 
       <div class="col small-note ml-auto text-right pb-2" data-i18n="tipText">
@@ -184,7 +184,7 @@
 
       <!-- 语言切换 -->
       <div class="col-auto pb-2 ml-2">
-        <button class="lang-switch-btn" onclick="__i18n.toggleLang()" data-i18n-title="langLabel">EN</button>
+	        <button type="button" class="lang-switch-btn" onclick="__i18n.toggleLang()" data-i18n-title="langLabel">EN</button>
       </div>
     </div>
   </div>
@@ -262,7 +262,10 @@
   let brush = 8;
   let zoom = 1, ZMIN=0.25, ZMAX=8, ZSTEP=1.25;
   
-  let maskName = null;      // null = 未加载禁区文件，否则为文件名
+	let maskName = null;      // null = 未加载禁区文件，否则为文件名
+
+	// Measurement preview timer
+	let measureTimeout = null;
   
   // filename helpers
   const isYaml = name => /\.ya?ml$/i.test(name);
@@ -562,10 +565,11 @@
 			// if touchend or mouseup without coordinates, keep last previewed pos
 			ex = lastPreviewX ?? sx; ey = lastPreviewY ?? sy;
       }
-      if(shape === 'measure'){
-        // keep the preview on screen until next action (comment out next line to persist it)
-		setTimeout(() => { 
-			clearPreview();	//clear it after few seconds
+	      if(shape === 'measure'){
+	        // keep the preview on screen until next action
+		if(measureTimeout) clearTimeout(measureTimeout);
+		measureTimeout = setTimeout(() => { 
+			clearPreview(); measureTimeout = null;	// clear it after few seconds
 		}, 5000);
         return; // no pixel changes, no undo/redo entry
       }
@@ -598,10 +602,11 @@
     // Apply the inverse (set each pixel back to its "prev"),
     // and stage a proper redo that will restore to "next".
     const redoSet = [];
-    for (const ch of changeSet) {
-      const buf = (ch.layer === 'pgm') ? pgm.pixels : mask;
-      // current value should be ch.next; we revert to ch.prev
-      buf[ch.idx] = ch.prev;
+	  for (const ch of changeSet) {
+	    const buf = (ch.layer === 'pgm') ? pgm.pixels : mask;
+	    if(!buf) continue; // skip mask entries when keepout zone not loaded
+	    // current value should be ch.next; we revert to ch.prev
+	    buf[ch.idx] = ch.prev;
       // prepare redo to go back to NEXT (the drawn value)
       redoSet.push({ layer: ch.layer, idx: ch.idx, prev: ch.prev, next: ch.next });
     }
@@ -617,10 +622,11 @@
   
     // Re-apply the "next" values and push the same set back onto undo
     const undoSet = [];
-    for (const ch of changeSet) {
-      const buf = (ch.layer === 'pgm') ? pgm.pixels : mask;
-      // current value should be ch.prev; we go to ch.next
-      buf[ch.idx] = ch.next;
+	  for (const ch of changeSet) {
+	    const buf = (ch.layer === 'pgm') ? pgm.pixels : mask;
+	    if(!buf) continue; // skip mask entries when keepout zone not loaded
+	    // current value should be ch.prev; we go to ch.next
+	    buf[ch.idx] = ch.next;
       // keep a proper undo record (same prev/next pair)
       undoSet.push({ layer: ch.layer, idx: ch.idx, prev: ch.prev, next: ch.next });
     }
@@ -631,16 +637,18 @@
   }
 
   // ===== Painting primitives =====
-  function paintAt(cx, cy){
-    if(!pgm) return;
-    const [mx,my] = canvasToMap(cx, cy);
-    const rad = Math.max(1, Math.floor(brush/2));
-    const w = pgm.width, h = pgm.height, maxval = pgm.maxval;
-  
-    if(tool === 'mask'){
-      paintBuffer('mask', mask, w, h, mx, my, rad, 0);
-      redrawMask();
-    } else if(tool === 'paint'){
+	function paintAt(cx, cy){
+		if(!pgm) return;
+		// Guard against using mask tool without a loaded keepout zone
+		if((tool === 'mask' || tool === 'erase') && !mask) return;
+		const [mx,my] = canvasToMap(cx, cy);
+		const rad = Math.max(1, Math.floor(brush/2));
+		const w = pgm.width, h = pgm.height, maxval = pgm.maxval;
+
+		if(tool === 'mask'){
+			paintBuffer('mask', mask, w, h, mx, my, rad, 0);
+			redrawMask();
+		} else if(tool === 'paint'){
       paintBuffer('pgm', pgm.pixels, w, h, mx, my, rad, 0);
       redrawMap();
     } else if(tool === 'erase'){
@@ -690,13 +698,13 @@
     const rad = Math.max(1, Math.floor(brush/2));
     const unknown = getUnknownVal();
   
-    const drawPoint = (mx,my)=>{
-      if(tool==='paint')      paintBuffer('pgm', pgm.pixels, w,h, mx,my, rad, 0);
-      else if(tool==='mask')  paintBuffer('mask', mask,       w,h, mx,my, rad, 0);
-      else if(tool==='erase'){paintBuffer('pgm', pgm.pixels,  w,h, mx,my, rad, maxval);
-                               paintBuffer('mask', mask,      w,h, mx,my, rad, 255);}
-      else if(tool==='unscan'){paintBuffer('pgm', pgm.pixels, w,h, mx,my, rad, unknown);}
-    };
+	  const drawPoint = (mx,my)=>{
+	    if(tool==='paint')      paintBuffer('pgm', pgm.pixels, w,h, mx,my, rad, 0);
+	    else if(tool==='mask'){ if(mask) paintBuffer('mask', mask, w,h, mx,my, rad, 0); }
+	    else if(tool==='erase'){paintBuffer('pgm', pgm.pixels,  w,h, mx,my, rad, maxval);
+	                             if(mask) paintBuffer('mask', mask, w,h, mx,my, rad, 255);}
+	    else if(tool==='unscan'){paintBuffer('pgm', pgm.pixels, w,h, mx,my, rad, unknown);}
+	  };
   
     while(true){
       drawPoint(x0,y0);
@@ -746,8 +754,8 @@
       const rowBase = y * w;
       for(let x = xMin; x <= xMax; x++){
         const idx = rowBase + x;
-        if(mapVal  !== null) setPixelWithUndo('pgm',  pgm.pixels, idx, mapVal);
-        if(maskVal !== null) setPixelWithUndo('mask', mask,       idx, maskVal);
+	        if(mapVal  !== null) setPixelWithUndo('pgm',  pgm.pixels, idx, mapVal);
+	        if(maskVal !== null && mask) setPixelWithUndo('mask', mask,       idx, maskVal);
       }
     }
   
@@ -860,10 +868,9 @@
               readBinary(byName.get(baseName)).then(buf=>{
                 loadKeepoutPGM(baseName, new Uint8Array(buf));
               }).catch(err=> alert(_('keepoutLoadError', {msg: err.message})));
-            }else{
-              // If baseName missing from the drop, just note it—user can drop it later
-              console.warn(_('dropKeepoutHint', {name: baseName}));
-            }
+	            }else{
+	              // Keepout image not in batch — user can drop it separately later
+	            }
             // Show YAML in preview if you want:
             // (Optional) $('#yamlPreview').text(txt);
           }else{
@@ -893,31 +900,35 @@
       }).catch(err=> alert(_('pgmParseError', {file: file.name, msg: err.message})));
     });
   }
-  function readText(file){
-    return new Promise((res,rej)=>{
-      const fr = new FileReader();
-      fr.onload = () => res(fr.result);
-      fr.onerror = rej;
-      fr.readAsText(file);
-    });
-  }
-  function readBinary(file){
-    return new Promise((res,rej)=>{
-      const fr = new FileReader();
-      fr.onload = () => res(fr.result);
-      fr.onerror = rej;
-      fr.readAsArrayBuffer(file);
-    });
-  }
+	function readText(file){
+	  return new Promise((res,rej)=>{
+	    const fr = new FileReader();
+	    fr.onload = () => res(fr.result);
+	    fr.onerror = () => rej(new Error('Failed to read file: ' + file.name));
+	    fr.readAsText(file);
+	  });
+	}
+	function readBinary(file){
+	  return new Promise((res,rej)=>{
+	    const fr = new FileReader();
+	    fr.onload = () => res(fr.result);
+	    fr.onerror = () => rej(new Error('Failed to read file: ' + file.name));
+	    fr.readAsArrayBuffer(file);
+	  });
+	}
   
   function loadBasePGM(filename, u8){
     try{
       const parsed = parsePGM(u8);
       pgmName = filename;
-      pgm = parsed;
-      $pgmName.text(filename);
-  
-      // If mask not allocated or wrong size, reset/resize it to match the map
+	      pgm = parsed;
+	      $pgmName.text(filename);
+
+	      // Clear undo/redo history when loading a new map
+	      undoStack.length = 0;
+	      redoStack.length = 0;
+
+	      // If mask not allocated or wrong size, reset/resize it to match the map
       if(!mask || (mask.length !== pgm.width*pgm.height)){
         mask = new Uint8ClampedArray(pgm.width*pgm.height);
         mask.fill(255); // no keepout by default
