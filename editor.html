@@ -184,7 +184,7 @@
 
       <!-- 语言切换 -->
       <div class="col-auto pb-2 ml-2">
-	        <button type="button" class="lang-switch-btn" onclick="__i18n.toggleLang()" data-i18n-title="langLabel">EN</button>
+	        <button type="button" class="lang-switch-btn" onclick="if(window.__i18n)__i18n.toggleLang()" data-i18n-title="langLabel">EN</button>
       </div>
     </div>
   </div>
@@ -304,6 +304,10 @@
   const mapCtx = mapCanvas.getContext('2d');
   const maskCtx = maskCanvas.getContext('2d');
   const prevCtx = previewCanvas.getContext('2d');
+  if (!mapCtx || !maskCtx || !prevCtx) {
+    alert('无法初始化画布上下文，请刷新页面重试。\nCanvas 2D context unavailable. Please refresh.');
+    throw new Error('Canvas 2D context unavailable');
+  }
   const brushCursor = document.getElementById('brushCursor');
   const viewport = document.getElementById('viewport');
   const canvasWrap = document.getElementById('canvasWrap');
@@ -354,7 +358,7 @@
 
   // Keyboard shortcuts
   window.addEventListener('keydown', (e)=>{
-    if(e.target && /input|textarea|select/i.test(e.target.tagName)) return;
+    if(e.target && e.target.tagName && /input|textarea|select/i.test(e.target.tagName)) return;
 
     if(e.code === 'Space'){
       if(!isSpace){ e.preventDefault(); isSpace = true; viewport.classList.add('panning'); }
@@ -394,7 +398,8 @@
 
   // Resize viewport height precisely relative to toolbar
   function sizeViewport(){
-    const toolbarH = document.querySelector('.toolbar').offsetHeight;
+    const toolbar = document.querySelector('.toolbar');
+    const toolbarH = toolbar ? toolbar.offsetHeight : 56;
     viewport.style.height = Math.max(200, window.innerHeight - toolbarH - 16) + 'px';
   }
   window.addEventListener('resize', sizeViewport);
@@ -408,7 +413,7 @@
   drop.addEventListener('dragleave', () => drop.classList.remove('drag'));
   drop.addEventListener('drop', (e)=>{
     drop.classList.remove('drag');
-    handleFiles(e.dataTransfer.files);
+    if(e.dataTransfer && e.dataTransfer.files) handleFiles(e.dataTransfer.files);
   });
 
   // ===== Canvas sizing & zoom =====
@@ -506,7 +511,7 @@
   });
   window.addEventListener('mouseup', e=>{
     if(panning){ panning=false; viewport.classList.remove('dragging'); }
-    endDrawing(e);
+    if(drawing || previewing) endDrawing(e);
   });
 
   // Touch (no spacebar on mobile — pan via viewport scroll as usual)
@@ -851,6 +856,7 @@
   
     // quick index so _keepout.yaml can resolve its image from the same drop
     const byName = new Map(files.map(f => [f.name, f]));
+    const loadedKeepout = new Set();  // 防止 YAML pass 和 PGM pass 重复加载
   
     // First pass: YAML files (base or keepout)
     files.filter(f => isYaml(f.name)).forEach(file=>{
@@ -864,6 +870,8 @@
             const imgField = (yobj && yobj.image) ? String(yobj.image) : '';
             const baseName = imgField.split('/').pop();  // handle relative paths
             if(baseName && byName.has(baseName)){
+              if(loadedKeepout.has(baseName)) return;  // 已通过 YAML pass 加载
+              loadedKeepout.add(baseName);
               // load mask image from batch
               readBinary(byName.get(baseName)).then(buf=>{
                 loadKeepoutPGM(baseName, new Uint8Array(buf));
@@ -893,6 +901,8 @@
       readBinary(file).then(buf=>{
         const u8 = new Uint8Array(buf);
         if(isKeepoutName(file.name)){
+          if(loadedKeepout.has(file.name)) return;  // 已通过 YAML pass 加载
+          loadedKeepout.add(file.name);
           loadKeepoutPGM(file.name, u8);
         }else{
           loadBasePGM(file.name, u8);
@@ -904,15 +914,15 @@
 	  return new Promise((res,rej)=>{
 	    const fr = new FileReader();
 	    fr.onload = () => res(fr.result);
-	    fr.onerror = () => rej(new Error('Failed to read file: ' + file.name));
-	    fr.readAsText(file);
-	  });
-	}
-	function readBinary(file){
-	  return new Promise((res,rej)=>{
-	    const fr = new FileReader();
-	    fr.onload = () => res(fr.result);
-	    fr.onerror = () => rej(new Error('Failed to read file: ' + file.name));
+		    fr.onerror = () => rej(new Error(_('fileReadError', {name: file.name})));
+		    fr.readAsText(file);
+		  });
+		}
+		function readBinary(file){
+		  return new Promise((res,rej)=>{
+		    const fr = new FileReader();
+		    fr.onload = () => res(fr.result);
+		    fr.onerror = () => rej(new Error(_('fileReadError', {name: file.name})));
 	    fr.readAsArrayBuffer(file);
 	  });
 	}
@@ -1147,8 +1157,14 @@
   }
   function buildUpdatedYaml(imageName){
     if(!yamlObj) return '';
-    const y = Object.assign({}, yamlObj, { image: imageName });
-    return jsyaml.dump(y);
+    try {
+      const y = Object.assign({}, yamlObj, { image: imageName });
+      return jsyaml.dump(y);
+    } catch(e) {
+      console.error('YAML dump failed:', e);
+      alert(_('yamlDumpError', {msg: e.message}));
+      return '';
+    }
   }
 
   $('#btnDownloadMap').on('click', ()=>{

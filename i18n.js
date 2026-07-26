@@ -97,6 +97,8 @@
 
       // 错误 & 提示消息
       'keepoutLoadError': '禁区图像加载错误：{msg}',
+      'fileReadError': '文件读取失败：{name}',
+      'yamlDumpError': 'YAML 生成失败：{msg}',
       'dropKeepoutHint': '将禁区图像 "{name}" 拖放进来以查看遮罩。',
       'yamlParseError': 'YAML 解析错误（{file}）：{msg}',
       'pgmParseError': 'PGM 解析错误（{file}）：{msg}',
@@ -201,6 +203,8 @@
       'na': '(n/a)',
 
       'keepoutLoadError': 'Keepout image load error: {msg}',
+      'fileReadError': 'Failed to read file: {name}',
+      'yamlDumpError': 'YAML generation failed: {msg}',
       'dropKeepoutHint': 'Drop the keepout image \"{name}\" to view the mask.',
       'yamlParseError': 'YAML parse error in {file}: {msg}',
       'pgmParseError': 'PGM parse error in {file}: {msg}',
@@ -231,13 +235,14 @@
       if (currentLang !== 'en' && dict['en'] && dict['en'][key] !== undefined) {
         str = dict['en'][key];
       } else {
-        return key; // 未找到翻译，返回 key 本身
+        console.warn('[i18n] Missing translation for key: ' + key);
+        return '[missing: ' + key + ']';
       }
     }
     if (params) {
       for (var k in params) {
         if (Object.prototype.hasOwnProperty.call(params, k)) {
-          str = str.replace(new RegExp('\\{' + k + '\\}', 'g'), params[k]);
+          str = str.replace(new RegExp('\\{' + k + '\\}', 'g'), String(params[k]));
         }
       }
     }

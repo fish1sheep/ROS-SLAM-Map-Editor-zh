@@ -1,0 +1,25 @@
+# --- Dependencies ---
+node_modules/
+
+# --- Build output ---
+dist/
+
+# --- ZCode workspace ---
+.zcode/
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# --- Editor files ---
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.sublime-*
+
+# --- Logs ---
+*.log
+npm-debug.log*
