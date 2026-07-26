@@ -1,6 +1,10 @@
 /**
  * ROS SLAM Map Editor — 国际化 (i18n) 轻量翻译模块
  * 支持中文(zh) / 英文(en) 切换，通过 localStorage 记忆语言偏好。
+ * 独立 IIFE 版本（供 index.html 落地页使用）。
+ *
+ * ⚠️ 注意：src/i18n.ts 是 TypeScript 版本（供 editor.html 使用），
+ * 两者翻译字典必须保持同步！修改时请同时更新两个文件。
  */
 (function(global){
   'use strict';
@@ -96,9 +100,8 @@
       'na': '(不适用)',
 
       // 错误 & 提示消息
-      'keepoutLoadError': '禁区图像加载错误：{msg}',
-      'dropKeepoutHint': '将禁区图像 "{name}" 拖放进来以查看遮罩。',
-      'yamlParseError': 'YAML 解析错误（{file}）：{msg}',
+	      'keepoutLoadError': '禁区图像加载错误：{msg}',
+	      'yamlParseError': 'YAML 解析错误（{file}）：{msg}',
       'pgmParseError': 'PGM 解析错误（{file}）：{msg}',
       'basePgmLoadError': '基础 PGM 加载错误：{msg}',
       'keepoutSizeMismatch': '禁区遮罩尺寸 {kw}×{kh} 与基础地图 {pw}×{ph} 不匹配，已跳过。',
@@ -200,9 +203,8 @@
       'noKeepoutStatus': 'No Keepout',
       'na': '(n/a)',
 
-      'keepoutLoadError': 'Keepout image load error: {msg}',
-      'dropKeepoutHint': 'Drop the keepout image \"{name}\" to view the mask.',
-      'yamlParseError': 'YAML parse error in {file}: {msg}',
+	      'keepoutLoadError': 'Keepout image load error: {msg}',
+	      'yamlParseError': 'YAML parse error in {file}: {msg}',
       'pgmParseError': 'PGM parse error in {file}: {msg}',
       'basePgmLoadError': 'Base PGM load error: {msg}',
       'keepoutSizeMismatch': 'Keepout mask size {kw}\u00d7{kh} does not match base map {pw}\u00d7{ph}. Skipping.',
